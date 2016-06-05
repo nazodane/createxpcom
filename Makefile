@@ -6,7 +6,7 @@ DIST=createinterface createsource createdist
 all: $(DIST)
 
 createinterface: $(CREATEINTERFACE_OBJS)
-	gcc $(CREATEINTERFACE_OBJS) -lm -lpthread -o $@
+	gdc $(CREATEINTERFACE_OBJS) -lm -lpthread -o $@
 
 %.o:%.d
 	gdc -c $< -o $@
