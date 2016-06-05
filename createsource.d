@@ -18,7 +18,7 @@ int main(string[] args){
   string uuid=generateUUID();
   string data;
   synchronized{
-    system("xpidl -m header -e "~tmpPath~dirSeparator~"iheader.xpcom -I "~idlPath~" "~tmp.interfaceName~".idl");
+    system("python /usr/lib/thunderbird-devel/sdk/bin/header.py -o "~tmpPath~dirSeparator~"iheader.xpcom -I"~idlPath~" "~tmp.interfaceName~".idl");
     data=cast(string)read(tmpPath~dirSeparator~"iheader.xpcom");
   }
   long i=data.indexOf("/* Header file */");

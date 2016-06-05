@@ -14,8 +14,8 @@ int main(string[] args){
   }
   Args* tmp=getArgs(args);
   string idlPath=getIDLPath();
-  system("xpidl -m typelib -I "~idlPath~" "~tmp.interfaceName~".idl");
-  system("xpidl -m header -I "~idlPath~" "~tmp.interfaceName~".idl");
+  system("python /usr/lib/thunderbird-devel/sdk/bin/typelib.py -o "~tmp.interfaceName~".xpt -I"~idlPath~" "~tmp.interfaceName~".idl");
+  system("python /usr/lib/thunderbird-devel/sdk/bin/header.py -o "~tmp.interfaceName~".h -I"~idlPath~" "~tmp.interfaceName~".idl");
   std.file.write(tmp.moduleName~"Module.cpp",`#include "nsIGenericFactory.h"
 #include "`~tmp.moduleName~`.h"
 

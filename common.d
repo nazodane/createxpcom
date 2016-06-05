@@ -103,7 +103,7 @@ void setGeckoSDKPath(){
   if(!isFirst)return;
   idlPath=Env.get("IDL_PATH");
   binPath=Env.get("BIN_PATH");
-  if(Env.get("GECKO_SDK_PATH")){
+  if(Env.get("GECKO_SDK_PATH") != ""){
     if(binPath==""){
       binPath=Env.get("GECKO_SDK_PATH")~dirSeparator~"bin";
     }
@@ -111,5 +111,8 @@ void setGeckoSDKPath(){
       idlPath=Env.get("GECKO_SDK_PATH")~dirSeparator~"idl";
     }
     Env.set("PATH",binPath~dirSeparator~Env.get("PATH"));
-  }
+  } else
+  idlPath = "/usr/share/idl/thunderbird/";
+
+  isFirst = false;
 }

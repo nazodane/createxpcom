@@ -3,7 +3,7 @@
 
 ## 必要な物
 * gdc 5 (linuxならapt-get install gdc-5)
-* [Gecko SDK](https://developer.mozilla.org/en-US/docs/Mozilla/Gecko/Gecko_SDK)
+* thunderbird-dev (linuxならapt-get install thunderbird-dev)
 * uuidgen (linuxならapt-get install uuid-runtimeで、WindowsならPlatform SDKにある。)
 
 ## 使い方の例
@@ -16,12 +16,10 @@ WindowsではPlatform SDKのbinにパスを通しておいてください。(set
     とするとexIExample.idlが作成されるのでexIExample.idlにAPIの仕様を書いてください。
 
 2.ソースを作る
-    export GECKO_SDK_PATH=/usr/local/src/mozilla/dist/sdk
     ./createsource ex Example
     とするとexExample.hとexExample.cppが作成されますので、ソースを改変してください。
     なおexExample.hも書き換える必要があります。
 
 3.ビルドに必要なファイルを作る
-    export GECKO_SDK_PATH=/usr/local/src/mozilla/dist/sdk
-    ./createbuild ex Example
-    とするとexIExample.hとexIExample.xpiとexExampleModule.cppが作成されます。
+    ./createdist ex Example
+    とするとexIExample.hとexIExample.xptとexExampleModule.cppが作成されます。
