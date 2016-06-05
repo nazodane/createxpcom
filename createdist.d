@@ -7,16 +7,16 @@ private import common;
 private import std.path;
 
 ///ビルド時の足りない物(xxYyyModule.cppとxxIYyy.xptとxxIYyy.h)を生成します。
-int main(char[][] args){
+int main(string[] args){
   if(args.length<3){
     writef("Usage: ./createdist prefix name\n");
     return 0;
   }
   Args* tmp=getArgs(args);
-  char[] idlPath=getIDLPath();
+  string idlPath=getIDLPath();
   system("xpidl -m typelib -I "~idlPath~" "~tmp.interfaceName~".idl");
   system("xpidl -m header -I "~idlPath~" "~tmp.interfaceName~".idl");
-  write(tmp.moduleName~"Module.cpp",`#include "nsIGenericFactory.h"
+  std.file.write(tmp.moduleName~"Module.cpp",`#include "nsIGenericFactory.h"
 #include "`~tmp.moduleName~`.h"
 
 NS_GENERIC_FACTORY_CONSTRUCTOR(`~tmp.prefix~tmp.name~`)

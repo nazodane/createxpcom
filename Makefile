@@ -6,16 +6,16 @@ DIST=createinterface createsource createdist
 all: $(DIST)
 
 createinterface: $(CREATEINTERFACE_OBJS)
-	gcc $(CREATEINTERFACE_OBJS) -lm -lpthread -lphobos -o $@
+	gcc $(CREATEINTERFACE_OBJS) -lm -lpthread -o $@
 
 %.o:%.d
-	dmd -c -of$@ $<
+	gdc -c $< -o $@
 
 createsource: $(CREATESOURCE_OBJS)
-	gcc $(CREATESOURCE_OBJS) -lm -lpthread -lphobos -o $@
+	gdc $(CREATESOURCE_OBJS) -lm -lpthread -o $@
 
 createdist: $(CREATEDIST_OBJS)
-	gcc $(CREATEDIST_OBJS) -lm -lpthread -lphobos -o $@
+	gdc $(CREATEDIST_OBJS) -lm -lpthread -o $@
 
 clean:
 	rm -f *.o $(DIST)

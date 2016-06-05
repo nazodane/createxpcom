@@ -9,45 +9,47 @@ private{
   import std.process;
   import std.file;
   import std.path;
+  import std.array;
+  import std.ascii;
 }
 
 version(Windows){
-  const char[] tmpPath;
+  const string tmpPath;
   static this(){
     tmpPath=Env.get("TEMP");
   }
 }else{
-  const char[] tmpPath="/tmp";
+  const string tmpPath="/tmp";
 }
 
-char[] generateUUID(){
+string generateUUID(){
   synchronized{
-    system("uuidgen > "~tmpPath~sep~"uuid.xpcom");
-    return (cast(char[])read(tmpPath~sep~"uuid.xpcom")).replace(linesep,"");
+    system("uuidgen > "~tmpPath~dirSeparator~"uuid.xpcom");
+    return (cast(string)read(tmpPath~dirSeparator~"uuid.xpcom")).replace(""~newline,"");
   }
 }
 
 struct Args{
-  char[] prefix;
-  char[] name;
-  char[] interfaceName(){
+  string prefix;
+  string name;
+  string interfaceName(){
     return prefix~"I"~name;
   }
-  char[] moduleName(){
+  string moduleName(){
     return prefix~name;
   }
-  char[] macroName(){
-    return toupper(prefix)~"_"~toupper(name);
+  string macroName(){
+    return toUpper(prefix)~"_"~toUpper(name);
   }
 }
 
 class InvalidArgsException:Exception{
-  this(char[] msg){
+  this(string msg){
     super("InvalidArgsException: "~msg);
   }
 }
 
-Args* getArgs(char[][] args){
+Args* getArgs(string[] args){
   assert(args.length>=3);
   Args* re=new Args;
   re.prefix=args[1];
@@ -83,15 +85,15 @@ Args* getArgs(char[][] args){
 }
 
 class NoGeckoSDKPathException:Exception{
-  this(char[] msg){
+  this(string msg){
     super("NoGeckoSDKPathException: "~msg);
   }
 }
 
-private char[] idlPath;
-private char[] binPath;
+private string idlPath;
+private string binPath;
 
-char[] getIDLPath(){
+string getIDLPath(){
   setGeckoSDKPath();
   return idlPath;
 }
@@ -103,11 +105,11 @@ void setGeckoSDKPath(){
   binPath=Env.get("BIN_PATH");
   if(Env.get("GECKO_SDK_PATH")){
     if(binPath==""){
-      binPath=Env.get("GECKO_SDK_PATH")~sep~"bin";
+      binPath=Env.get("GECKO_SDK_PATH")~dirSeparator~"bin";
     }
     if(idlPath==""){
-      idlPath=Env.get("GECKO_SDK_PATH")~sep~"idl";
+      idlPath=Env.get("GECKO_SDK_PATH")~dirSeparator~"idl";
     }
-    Env.set("PATH",binPath~pathsep~Env.get("PATH"));
+    Env.set("PATH",binPath~dirSeparator~Env.get("PATH"));
   }
 }

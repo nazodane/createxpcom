@@ -7,23 +7,23 @@ private import std.stdio;
  */
 
 extern(C){
-  char* getenv(char* name);
+  immutable(char)* getenv(immutable(char)* name);
   version(Windows){
-    int putenv(char* envstring);
+    int putenv(immutable(char)* envstring);
   }else{
-    int setenv(char* name,char* value);
-    int unsetenv(char* name);
+    int setenv(immutable(char)* name,immutable(char)* value);
+    int unsetenv(immutable(char)* name);
   }
 }
 
 ///現在のプロセスの環境変数に関するクラス
 class Env{
   ///環境変数を取得します。
-  static char[] get(char[] name){
-    return .toString(getenv(.toStringz(name)));
+  static string get(string name){
+    return fromStringz(getenv(.toStringz(name)));
   }
   ///環境変数を設定します。
-  static int set(char[] name,char[] value){
+  static int set(string name,string value){
     version(Windows){
       return putenv(.toStringz(name~"="~value));
     }else{
@@ -31,7 +31,7 @@ class Env{
     }
   }
   ///環境変数を削除します。
-  static int unset(char[] name){
+  static int unset(string name){
     version(Windows){
       return putenv(.toStringz(name~"="));
     }else{
